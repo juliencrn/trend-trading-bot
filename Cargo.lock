@@ -3,6 +3,17 @@
 version = 3
 
 [[package]]
+name = "app"
+version = "0.1.0"
+dependencies = [
+ "reqwest",
+ "serde",
+ "serde_json",
+ "ta",
+ "tokio",
+]
+
+[[package]]
 name = "autocfg"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -708,6 +719,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "ta"
+version = "0.1.0"
+
+[[package]]
 name = "tempfile"
 version = "3.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -814,16 +829,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "03cfcb51380632a72d3111cb8d3447a8d908e577d31beeac006f836383d29a23"
 dependencies = [
  "lazy_static",
-]
-
-[[package]]
-name = "trend-trading-bot"
-version = "0.1.0"
-dependencies = [
- "reqwest",
- "serde",
- "serde_json",
- "tokio",
 ]
 
 [[package]]
