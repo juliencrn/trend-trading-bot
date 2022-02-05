@@ -17,17 +17,28 @@ async fn main() {
     println!("result count: {:?}", klines.len());
 
     // Extract close prices
-    let price_data: Vec<f64> = klines.iter().rev().take(100).map(|f| f.close).collect();
+    let close_prices: Vec<f64> = klines.iter().rev().take(100).map(|f| f.close).collect();
 
     // Calc and print the Simple moving average (SMA)
-    let sma = ta::sma(&price_data, 26).expect("Calculating SMA failed");
+    let sma = ta::sma(&close_prices, 26).expect("Calculating SMA failed");
     println!("SMA: {:#?}", sma);
 
     // Calc and print the Exponential moving average (EMA)
-    let ema = ta::ema(&price_data, 26).expect("Calculating EMA failed");
+    let ema = ta::ema(&close_prices, 26).expect("Calculating EMA failed");
     println!("EMA: {:#?}", ema);
 
     // Calc and print the Moving Average Convergence Divergence (MACD)
-    let macd = ta::macd(&price_data, 12, 26, 9).expect("Calculating MACD failed");
+    let macd = ta::macd(&close_prices, 12, 26, 9).expect("Calculating MACD failed");
     println!("MACD: {:#?}", macd);
+
+    // Calc and print the Bollinger Bands
+    let typical_prices: Vec<f64> = klines
+        .iter()
+        .rev()
+        .take(100)
+        .map(|k| (k.high + k.low + k.close) / 3.0)
+        .collect();
+    let bolling =
+        ta::bolling(&typical_prices, 20, 2.0).expect("Calculating Bollinger Bands failed");
+    println!("Bollinger Bands: {:#?}", bolling);
 }
