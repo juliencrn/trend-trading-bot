@@ -41,4 +41,8 @@ async fn main() {
     let bolling =
         ta::bolling(&typical_prices, 20, 2.0).expect("Calculating Bollinger Bands failed");
     println!("Bollinger Bands: {:#?}", bolling);
+
+    // Calc and print the Relative Strength Index (RSI)
+    let rsi = ta::rsi(&close_prices, 14).expect("Calculating RSI failed");
+    println!("RSI: {:#?}", rsi);
 }
