@@ -11,7 +11,7 @@ async fn main() {
     let kline_result = exchanges::binance::get_klines(client, "1d", "BTCUSDT", 100).await;
     let klines = match kline_result {
         Some(klines) => klines,
-        _ => panic!("Something went wrong."),
+        _ => panic!("Could fetch klines from Binance"),
     };
 
     println!("first result: {:#?}", klines[0]);
@@ -25,4 +25,12 @@ async fn main() {
         _ => panic!("Calculating SMA failed"),
     };
     println!("SMA: {:?}", sma_data);
+
+    // Calc and print the Exponential moving average (EMA)
+    let result = ta::ema(&price_data, 26);
+    let ema_data = match result {
+        Some(data) => data,
+        _ => panic!("Calculating EMA failed"),
+    };
+    println!("EMA: {:?}", ema_data);
 }
