@@ -8,29 +8,26 @@ mod utils;
 async fn main() {
     // Get klines from binance
     let client = utils::get_client();
-    let kline_result = exchanges::binance::get_klines(client, "1d", "BTCUSDT", 100).await;
-    let klines = match kline_result {
-        Some(klines) => klines,
+    let result = exchanges::binance::get_klines(client, "1d", "BTCUSDT", 100).await;
+    let klines = match result {
+        Some(data) => data,
         _ => panic!("Could fetch klines from Binance"),
     };
-
     println!("first result: {:#?}", klines[0]);
     println!("result count: {:?}", klines.len());
 
-    // Calc and print the Simple moving average (SMA)
+    // Extract close prices
     let price_data: Vec<f64> = klines.iter().rev().take(100).map(|f| f.close).collect();
-    let result = ta::sma(&price_data, 26);
-    let sma_data = match result {
-        Some(data) => data,
-        _ => panic!("Calculating SMA failed"),
-    };
-    println!("SMA: {:?}", sma_data);
+
+    // Calc and print the Simple moving average (SMA)
+    let sma = ta::sma(&price_data, 26).expect("Calculating SMA failed");
+    println!("SMA: {:#?}", sma);
 
     // Calc and print the Exponential moving average (EMA)
-    let result = ta::ema(&price_data, 26);
-    let ema_data = match result {
-        Some(data) => data,
-        _ => panic!("Calculating EMA failed"),
-    };
-    println!("EMA: {:?}", ema_data);
+    let ema = ta::ema(&price_data, 26).expect("Calculating EMA failed");
+    println!("EMA: {:#?}", ema);
+
+    // Calc and print the Moving Average Convergence Divergence (MACD)
+    let macd = ta::macd(&price_data, 12, 26, 9).expect("Calculating MACD failed");
+    println!("MACD: {:#?}", macd);
 }
