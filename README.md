@@ -6,8 +6,19 @@ Experiments repo about (crypto) trend trading. By "trend" I mean trading followi
 
 This repository is a cargo workspace with some packages:
 
-- `app`: The only one *binary* crate, the entry point.
+- `app`: The only one *binary* crate used at "entry point" and providing an access to the programme features (see the `bin` directory):
+  
+  ```sh
+  # Launch the Telegram bot
+  cargo run --bin telegram_bot
+
+  # Fetch price on binance and return RSI, MACD...
+  cargo run --bin ta_binance
+  ```
+
 - `ta`: Technical analysis library crate, calculates indicators like SMA, RSI, MACD...
+
+You want to dive into? Run `cargo doc --open`.
 
 ## Telegram
 

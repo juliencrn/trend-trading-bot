@@ -1,3 +1,5 @@
+//! Technical Analysis library
+
 mod bolling;
 mod ema;
 mod macd;

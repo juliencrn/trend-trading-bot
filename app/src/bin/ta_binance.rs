@@ -1,8 +1,6 @@
+use app::exchanges;
+use app::utils;
 use ta;
-
-mod exchanges;
-mod models;
-mod utils;
 
 #[tokio::main]
 async fn main() {
