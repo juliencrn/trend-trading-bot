@@ -25,6 +25,13 @@ pub struct Kline {
     pub ignore: f64,
 }
 
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct PriceTicker {
+    pub symbol: String,
+    #[serde(deserialize_with = "str_to_float")]
+    pub price: f64,
+}
+
 pub fn str_to_float<'a, D>(deserializer: D) -> Result<f64, D::Error>
 where
     D: Deserializer<'a>,
