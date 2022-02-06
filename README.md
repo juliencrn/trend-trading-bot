@@ -8,3 +8,15 @@ This repository is a cargo workspace with some packages:
 
 - `app`: The only one *binary* crate, the entry point.
 - `ta`: Technical analysis library crate, calculates indicators like SMA, RSI, MACD...
+
+## Telegram
+
+To create a telegram bot, speak with [@BotFather](https://t.me/botfather) on Telegram.
+
+## Environnement variables
+
+Create a `.env` file at the root with:
+
+```sh
+TELOXIDE_TOKEN="insertValue" # Ask to @BotFather on Telegram
+```

@@ -9,3 +9,7 @@ pub fn get_client() -> Client {
         .unwrap();
     client
 }
+
+pub fn to_uppercase(string: &str) -> String {
+    string.chars().map(|c| c.to_ascii_uppercase()).collect()
+}
