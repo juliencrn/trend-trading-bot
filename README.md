@@ -20,6 +20,10 @@ This repository is a cargo workspace with some packages:
 
   # test read/write vec<T> in a CSV file
   cargo run --bin csv
+
+  # Script to download historical data into csv files
+  # Requires config in the file before
+  cargo run --bin get_historical
   ```
 
 - `ta`: Technical analysis library crate, calculates indicators like SMA, RSI, MACD...

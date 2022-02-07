@@ -21,3 +21,4 @@ teloxide = { version = "0.4", features = ["frunk", "macros", "auto-send"] }
 log = "0.4.8"
 pretty_env_logger = "0.4.0"
 csv = "1.1"
+chrono = "0.4"

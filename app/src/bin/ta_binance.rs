@@ -6,7 +6,8 @@ use ta;
 async fn main() {
     // Get klines from binance
     let client = utils::get_client();
-    let result = exchanges::binance::get_klines(client, "1d", "BTCUSDT", 100).await;
+    let result =
+        exchanges::binance::get_klines(client, "1d", "BTCUSDT", Some(100), None, None).await;
     let klines = match result {
         Some(data) => data,
         _ => panic!("Could fetch klines from Binance"),
