@@ -14,6 +14,12 @@ This repository is a cargo workspace with some packages:
 
   # Fetch price on binance and return RSI, MACD...
   cargo run --bin ta_binance
+
+  # Fetch the BTC-USDT price
+  cargo run --bin get_btc_price
+
+  # test read/write vec<T> in a CSV file
+  cargo run --bin csv
   ```
 
 - `ta`: Technical analysis library crate, calculates indicators like SMA, RSI, MACD...
