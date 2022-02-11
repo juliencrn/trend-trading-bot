@@ -2,7 +2,7 @@
 //! This data will be used for back-test trading strategies.
 
 use app::exchanges::binance;
-use app::models::kline::Kline;
+use app::models::binance::Kline;
 use app::utils;
 use serde::Serialize;
 use std::error::Error;

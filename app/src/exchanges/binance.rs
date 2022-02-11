@@ -1,5 +1,5 @@
 use crate::models;
-use models::kline::{Kline, PriceTicker};
+use models::binance::{Kline, PriceTicker};
 use reqwest::{Client, StatusCode};
 
 static BINANCE_URL: &str = "https://api.binance.com/api/v3";

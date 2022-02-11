@@ -1,5 +1,5 @@
 use app::exchanges;
-use app::models::kline::PriceTicker;
+use app::models::binance::PriceTicker;
 use app::utils;
 
 #[tokio::main]
