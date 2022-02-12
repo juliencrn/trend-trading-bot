@@ -1,6 +1,15 @@
 # Trend trading bot
 
-Experiments repo about (crypto) trend trading. By "trend" I mean trading following the trend using technical indicators (vs other kinds of trading bots and strategies). I'm not quite sure about the destination of this project, maybe send signals on the Telegram channel, maybe draw charts, maybe trade. Let's start playing!
+Experiments repo about (crypto) trend-following trading. I'm not quite sure about the destination of this project, maybe send signals on the Telegram channel, maybe draw charts, maybe automated trading. Let's start playing!
+
+**Disclaimer**:
+
+- I'm new in blockchain
+- I'm new in backend
+- I'm new in Rust
+- I'm new in trading
+
+Don't trust my code here, it's really a work-in-progress sandbox!
 
 ## About
 
@@ -24,6 +33,12 @@ This repository is a cargo workspace with some packages:
   # Script to download historical data into csv files
   # Requires config in the file before
   cargo run --bin get_historical
+
+  # Listen market update by connecting the binance API using web-socket
+  cargo run --bin listen_binance_ws
+
+  # Get binance balance (require to be authenticated to binance)
+  cargo run --bin get_balance
   ```
 
 - `ta`: Technical analysis library crate, calculates indicators like SMA, RSI, MACD...
@@ -40,4 +55,8 @@ Create a `.env` file at the root with:
 
 ```sh
 TELOXIDE_TOKEN="insertValue" # Ask to @BotFather on Telegram
+
+# https://binance-docs.github.io/apidocs/spot/en/#introduction
+BINANCE_API_KEY="insertValue"
+BINANCE_SECRET_KEY="insertValue"
 ```

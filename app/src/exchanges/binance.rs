@@ -1,8 +1,10 @@
 use crate::models;
-use models::binance::{Kline, PriceTicker};
+use crate::utils::{get_signature, get_timestamp};
+use models::binance::{Balance, Kline, PriceTicker};
 use reqwest::{Client, StatusCode};
+use std::time::SystemTime;
 
-static BINANCE_URL: &str = "https://api.binance.com/api/v3";
+pub static BINANCE_URL: &str = "https://api.binance.com/api/v3";
 
 pub async fn get_klines(
     client: Client,          // from reqwest HTTP lib
@@ -65,4 +67,29 @@ pub async fn get_price(client: Client, symbol: &str) -> Option<PriceTicker> {
     };
 
     Some(data)
+}
+
+pub async fn get_balance(
+    client: Client,
+    time: Option<SystemTime>,
+) -> Result<Balance, Box<dyn std::error::Error>> {
+    let time = match time {
+        Some(t) => t,
+        None => SystemTime::now(),
+    };
+    let params = format!("timestamp={}", get_timestamp(time));
+    let signature = get_signature(&params);
+    let request = format!("{}/account?{}&signature={}", BINANCE_URL, params, signature);
+
+    println!("Request url: {}", &request);
+
+    let res = client.get(&request).send().await?;
+
+    println!("Response: {:?} {}", res.version(), res.status());
+    println!("Response Headers: {:#?}\n", res.headers());
+
+    let body = res.text().await?;
+    let parsed: Balance = serde_json::from_str(&body).unwrap();
+
+    Ok(parsed)
 }
