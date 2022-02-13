@@ -126,6 +126,94 @@ impl Balance {
     }
 }
 
+/// Rate_limits in a ExchangeInfo child
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RateLimits {
+    pub rate_limit_type: String,
+    pub interval: String,
+    pub interval_num: u32,
+    pub limit: u32,
+}
+
+/// Exchange symbol info
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SymbolInfo {
+    pub symbol: String,
+    pub status: String,
+    pub base_asset: String,
+    pub base_asset_precision: u32,
+    pub quote_asset: String,
+    pub quote_precision: u32,
+    pub quote_asset_precision: u32,
+    pub base_commission_precision: u32,
+    pub quote_commission_precision: u32,
+    pub order_types: Vec<String>,
+
+    // "icebergAllowed": true,
+    // "ocoAllowed": true,
+    // "quoteOrderQtyMarketAllowed": true,
+    // "isSpotTradingAllowed": true,
+    // "isMarginTradingAllowed": true,
+    // pub filters: [
+    //     {
+    //         "filterType": "PRICE_FILTER",
+    //         "minPrice": "0.01000000",
+    //         "maxPrice": "1000000.00000000",
+    //         "tickSize": "0.01000000"
+    //     },
+    //     {
+    //         "filterType": "PERCENT_PRICE",
+    //         "multiplierUp": "5",
+    //         "multiplierDown": "0.2",
+    //         "avgPriceMins": 5
+    //     },
+    //     {
+    //         "filterType": "LOT_SIZE",
+    //         "minQty": "0.00010000",
+    //         "maxQty": "9000.00000000",
+    //         "stepSize": "0.00010000"
+    //     },
+    //     {
+    //         "filterType": "MIN_NOTIONAL",
+    //         "minNotional": "10.00000000",
+    //         "applyToMarket": true,
+    //         "avgPriceMins": 5
+    //     },
+    //     {
+    //         "filterType": "ICEBERG_PARTS",
+    //         "limit": 10
+    //     },
+    //     {
+    //         "filterType": "MARKET_LOT_SIZE",
+    //         "minQty": "0.00000000",
+    //         "maxQty": "1882.81190833",
+    //         "stepSize": "0.00000000"
+    //     },
+    //     {
+    //         "filterType": "MAX_NUM_ORDERS",
+    //         "maxNumOrders": 200
+    //     },
+    //     {
+    //         "filterType": "MAX_NUM_ALGO_ORDERS",
+    //         "maxNumAlgoOrders": 5
+    //     }
+    // ],
+    permissions: Vec<String>,
+}
+
+/// Get binance exchange info.
+/// More: https://api.binance.com/api/v3/exchangeInfo
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ExchangeInfo {
+    pub timezone: String,
+    pub server_time: u128,
+    pub rate_limits: Vec<RateLimits>,
+    pub symbols: Vec<SymbolInfo>,
+}
+
 pub fn str_to_float<'a, D>(deserializer: D) -> Result<f64, D::Error>
 where
     D: Deserializer<'a>,

@@ -1,6 +1,6 @@
 use crate::models;
 use crate::utils::{get_signature, get_timestamp};
-use models::binance::{Balance, Kline, PriceTicker};
+use models::binance::{Balance, ExchangeInfo, Kline, PriceTicker};
 use reqwest::{Client, StatusCode};
 use std::time::SystemTime;
 
@@ -92,4 +92,59 @@ pub async fn get_balance(
     let parsed: Balance = serde_json::from_str(&body).unwrap();
 
     Ok(parsed)
+}
+
+/// keep in mind:
+/// - Required parameters: symbol, side, type, timeInForce (eventhough it is listed as not mandatory), and timestamp.
+/// - When adding quantity and price parameters it is important to adhere to minimum quanity and minimum price, and also in terms of unit steps in price.
+/// - There is also a restriction on what percentage below or above the current price our order price can be.
+pub async fn order_limit_test(
+    client: Client,
+    symbol: &str,  // BTCUSDT
+    quantity: f64, // 0.001 (BTC)
+    price: f64,    // 40_000.0 (USDT)
+) -> Result<(), Box<dyn std::error::Error>> {
+    let timestamp = get_timestamp(SystemTime::now());
+    let params = format!(
+        "timestamp={}&symbol={}&side=BUY&type=LIMIT&timeInForce=GTC&quantity={}&price={}",
+        timestamp, symbol, quantity, price,
+    );
+    let signature = get_signature(&params);
+    let request = format!(
+        "{}/order/test?{}&signature={}",
+        BINANCE_URL, &params, signature
+    );
+
+    let result = client.post(request).send().await.unwrap();
+    match result.status() {
+        StatusCode::OK => {
+            println!("Status ok!");
+            let data: serde_json::Value = result.json().await.unwrap();
+            println!("Data: {}", data);
+        }
+        _ => {
+            println!("An error occurred: {:#?}", result);
+            println!("Result text {}", result.text().await.unwrap());
+        }
+    }
+
+    Ok(())
+}
+
+pub async fn get_exchange_info(client: Client) -> Result<(), Box<dyn std::error::Error>> {
+    let request = format!("{}/exchangeInfo", BINANCE_URL);
+    let res = client.get(&request).send().await?;
+
+    println!("Response: {:?} {}", res.version(), res.status());
+    println!("Response Headers: {:#?}\n", res.headers());
+
+    let body = res.text().await?;
+
+    // println!("Body: {:#?}", body);
+
+    let parsed: ExchangeInfo = serde_json::from_str(&body).unwrap();
+
+    println!("Parsed: {:#?}", parsed);
+
+    Ok(())
 }
