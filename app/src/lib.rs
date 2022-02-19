@@ -10,4 +10,5 @@
 pub mod csv;
 pub mod exchanges;
 pub mod models;
+pub mod trading_bot;
 pub mod utils;
